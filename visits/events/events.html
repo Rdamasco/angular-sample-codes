@@ -1,0 +1,83 @@
+<div class="eventsTabsHeader detailsHeader">
+    <div class="eventsHeader">
+        <div class="eventsHeaderInfo row">
+            <div class="col-md-2">
+                <div class="col-md-6"><a id="backToSearchEvents" ui-sref="search.person.visits"><i class="fa fa-chevron-left"></i></a></div>
+                  <div class="col-md-6"><div id="visitsHeaderTitle">Visits</div></div>
+            </div>
+            <div class="col-md-10 detailInfoRows">
+                <div class="col-md-3 detailsInfoWrapper">
+                  <div class="visitDate"><span class="dTitles">Start Service:</span> {{ eventsPersonController.getVisitByAggregation.aggregation.eventTime |  date:'medium' }}</div>
+                </div>
+                <div class="col-md-6 detailsInfoWrapper">
+                  <div class="patClass"><span class="dTitles">Visit Type:</span> {{eventsPersonController.getVisitByAggregation.aggregation.patClass}}</div>
+	                <!-- <div class="visitStat">Surgery</div> -->
+                  <div class="visitNum"><span class="dTitles">Visit Number:</span> {{eventsPersonController.getVisitByAggregation.aggregation.visitIdNm}} </div>
+	                
+                </div>
+                <div class="detailsIconsCont col-md-3 detailsInfoWrapper">
+                    <div class="location1"><span class="dTitles">Facility:</span> {{eventsPersonController.getVisitByAggregation.aggregation.visitAssignedLoc[1]}} </div>
+                    <div class="location2"><span class="dTitles">Building:</span> {{eventsPersonController.getVisitByAggregation.aggregation.visitAssignedLoc[2]}} </div>
+                    <!-- <div class="iconHolder">
+                        <span class="detailsIcon" ui-sref="search.person.details.demographics"><i class="fa fa-question-circle"></i> Details
+                        </span>
+                        <span class="relationsIcon" ui-sref=".relation"><i class="fa fa-share-alt"></i> Relations
+                        </span>
+                    </div>
+                    <div class="iconHolder">
+                        <span class="visitsIcon"><img src="images/icons-details/visits.png" style="height: 26px;"> Visits
+                        </span>
+                        <a ng-repeat="plugin in personController.personPlugins" ui-sref="{{plugin.initialState}}"><i class="fa {{plugin.icon}}"></i> <span>{{plugin.display | translate}}</span></a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="eventsResults col-md-8">
+	<div id="eventsTitle">Events</div>
+	<div class="eventsRowCont col-md-12 list-group-item" ng-repeat="event in eventsPersonController.getEventsByNodeName | orderBy: 
+    '-timeStamp'">
+        <div>
+            <div class="col-md-2 date visitRow">
+              <div class="eventDate">{{event.timeStamp |  date:'medium' }}</div>
+                <div class="dischargeDate"></div>
+            </div>
+            <div class="col-md-6 groupOne visitRow">
+                <!--div class="patClass">{{event.patClass}}</div-->
+                <div class="eventsSummary">
+                  <span class="dTitles">{{ event.evType === 'ORU' && event.evTrigger === 'R01' ? 'Order Type: ' : ''}}</span>{{ event.evType == 'ORU'  && event.evTrigger == 'R01' ? event.orderSum[0] : '' }}
+                </div>
+                <div class="eventType"><span class="dTitles">Event Type:</span> {{event.evType + '-' + event.evTrigger | codedisplay : 'NGCANONICAL' : 'HL7v2Triggers'}}</div>
+            </div>
+            <div class="col-md-4 groupTwo visitRow">
+            	<div class="eventsSummary">
+                    <!-- <div class="eventsLocation">Location: {{ event.evType == 'ADT-A01' ?  event.VisitInfo[0].AssLoc : '' }}</div> -->
+                    <div class="location1"><span class="dTitles">Facility:</span> {{eventsPersonController.getVisitByAggregation.aggregation.visitAssignedLoc[1]}} </div>
+                    <div class="location2"><span class="dTitles">Building:</span> {{eventsPersonController.getVisitByAggregation.aggregation.visitAssignedLoc[2]}} </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="eventsResults col-md-4">
+    <div id="careTeamsTitle">Careteam for this visit</div>
+    <div class="visitRow list-group-item" ng-repeat="prop in eventsPersonController.providersAgg">
+        <div class="agg">
+            <span class="relationAgg valuePadding">{{prop.relation}}</span>
+            <a class="coloredLink valuePadding" ui-sref="search.provider.details({id: prop.euid})">  
+                {{prop.partyName}} 
+            </a>  
+            <span class=" valuePadding"> 
+                <a class="coloredLink" href="tel:{{prop.phone | telNumFilter}}">{{prop.phone | telNumFilter}}</a> 
+                <i class="fa fa-phone"></i>
+            </span>
+        </div> 
+        <div class="agg">{{prop.specialty | providerSpecialty}}</div>
+        <div class="agg"><span class="dTitles"> Facility:  </span>{{prop.facility}}</div>
+    </div>
+</div>  
+
+

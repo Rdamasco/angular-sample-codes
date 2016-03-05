@@ -1,0 +1,48 @@
+<div class="visits">
+    <div nxg-loadingresults results="visitsPersonController.visitsPerson" loading="visitsPersonController.loading"></div>
+    <div ui-view="" id="eventsView" class="col-md-12">
+        <div class="visitsTitle col-md-12">Visits</div>
+        <div class="col-md-2 datePagCont">
+            <div class="visitCont" ng-repeat="(key, prop) in visitsPersonController.visitsPerson">
+                <div class="yearCountCont">
+                    <i show-Hide class="visitDropdown pull-left fa fa-caret-right fa-2x"></i>
+                    <div ng-click="visitsPersonController.gotoAnchor($index)" class="datePag">{{ prop.year }}</div>
+                    <div ng-click="visitsPersonController.gotoAnchor($index)" class="datePagCount">{{prop.months.length}}</div>
+                </div>
+                <div id="{{'visit' + $index}}" class="monthCountWrapper">
+                    <div ng-click="visitsPersonController.gotoAnchor($index)" class="monthsCont">
+                        <div class="monthPag" ng-repeat="months in prop.filterMonthsInOrder track by $index" ng-repeat="count in prop.filteredMonthsCount track by $index">{{months}} 
+                        </div>
+                    </div>
+                    <div  ng-click="visitsPersonController.gotoAnchor($index)" class="countPagCont">
+                        <div class="countPag" ng-repeat="count in prop.filteredMonthsCount track by $index">{{count}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-md-offset-2">
+            <div class="visitCont" ng-repeat="visit in visitsPersonController.visitsPerson">
+                <div id="anchor{{$index}}" class="visitsYear col-md-12 anchor">{{ visit.year }}</div>
+                <div id="{{prop.visitId}}" class="col-md-12 list-group-item visitsRowCont" ng-repeat="prop in visit.months">
+                    <div ui-sref=".events({nodeName: prop.visitId})" class="visitCont">
+                        <div class="col-md-4 date visitRow">
+                          <div class="visitDate"><span class="dTitles" translate>Start Service:</span> {{ prop.visitEarliestTime | date:'medium' }}</div>
+                        </div>
+                        <div class="col-md-4 groupOne visitRow">
+                            <div class="patClass"><span class="dTitles">Visit Type:</span> {{visitsPersonController.checkApplicable(prop.patClass)}}</div>
+
+                            <div class="visitNum"><span class="dTitles">Visit Number:</span> {{prop.visitIdNm}} </div>
+                        </div>
+                        <div class="col-md-4 groupTwo visitRow">
+   
+                            <div class="location1"><span class="dTitles">Facility:</span> {{prop.visitAssignedLoc[1]}} </div>
+                            <div class="location2"><span class="dTitles">Building:</span> {{prop.visitAssignedLoc[2]}} </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
