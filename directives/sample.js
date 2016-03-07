@@ -86,9 +86,7 @@
         }
     }
 
-/****
-    * Description: Reusable modal for creating quick, sophisticated dialog boxes.
-    *
+/*
     * Delete Markup: Insert this Markup inside ngRepeat
     *               
     *               <delete-Directive index="$index" modalID="relationDeletePopup" edge="prop[0]">
